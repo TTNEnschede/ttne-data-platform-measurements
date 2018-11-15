@@ -1,0 +1,78 @@
+{
+	"_id": {
+		"$oid": "5ae8c51c5cb7e40bf62d226c"
+	},
+	"api_key": "123",
+	"payload": {
+		"downlink_url": "https://integrations.thethingsnetwork.org/ttn-eu/api/v2/down/ttn-weather/ttne-http?key=ttn-account-v2.",
+		"metadata": {
+			"gateways": [{
+				"altitude": {
+					"$numberInt": "105"
+				},
+				"longitude": {
+					"$numberDouble": "6.9007"
+				},
+				"latitude": {
+					"$numberDouble": "52.2165"
+				},
+				"rf_chain": {
+					"$numberInt": "1"
+				},
+				"snr": {
+					"$numberDouble": "-3.5"
+				},
+				"rssi": {
+					"$numberInt": "-118"
+				},
+				"channel": {
+					"$numberInt": "0"
+				},
+				"time": "",
+				"timestamp": {
+					"$numberDouble": "4121869235"
+				},
+				"gtw_id": "eui-1dee039aac75c307"
+			}],
+			"coding_rate": "4/5",
+			"data_rate": "SF7BW125",
+			"modulation": "LORA",
+			"frequency": {
+				"$numberDouble": "868.1"
+			},
+			"time": "2018-05-01T19:50:52.028590398Z"
+		},
+		"payload_fields": {
+			"temperature": {
+				"$numberDouble": "6.8"
+			},
+			"relative_humidity": {
+				"$numberInt": "73"
+			},
+			"battery_level": {
+				"$numberInt": "3"
+			},
+			"barometric_pressure": {
+				"$numberInt": "1011"
+			}
+		},
+		"payload_raw": "HkkB1APz",
+		"counter": {
+			"$numberInt": "888"
+		},
+		"port": {
+			"$numberInt": "1"
+		},
+		"hardware_serial": "0000000000000001",
+		"dev_id": "lora-env-001",
+		"app_id": "ttn-weather"
+	},
+	"created_on": {
+		"$date": {
+			"$numberLong": "1525204252265"
+		}
+	},
+	"__v": {
+		"$numberInt": "0"
+	}
+}
