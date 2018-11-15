@@ -33,15 +33,29 @@ module.exports.process_ingest_message = function(ingest) {
       console.log(field)
 
       //TODO: Location stuff.
-      measurements.push(
-        new Measurement({
-          api_key: ingest.api_key,
-          application_id: ingest.payload.app_id,
-          device_id: ingest.payload.dev_id,
-          measurement_type: keys[i],
-          measurement_value: field
-        })
-      )
+      //HACK: Time has not been standardised yet so we will parse a specific field for this.
+      if (ingest.payload.payload_fields.datetime === undefined) {
+        measurements.push(
+          new Measurement({
+            api_key: ingest.api_key,
+            application_id: ingest.payload.app_id,
+            device_id: ingest.payload.dev_id,
+            measurement_type: keys[i],
+            measurement_value: field
+          })
+        )
+      } else {
+        measurements.push(
+          new Measurement({
+            api_key: ingest.api_key,
+            application_id: ingest.payload.app_id,
+            device_id: ingest.payload.dev_id,
+            measurement_type: keys[i],
+            measurement_value: field,
+            timestamp: new Date(ingest.payload.payload_fields.datetime * 1000)
+          })
+        )
+      }
     }
 
     // Bulk import measurements.
