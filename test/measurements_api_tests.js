@@ -71,7 +71,20 @@ describe("* Measurements API test",function () {
     })
 
     // Actual tests
-    it('should fetch one measurement', function (done) {
-      done()
+    it('should return a list of 2 measurements', function (done) {
+      server.get('/api/measurements')
+        .set('Accept', 'application/json')
+        .expect('Content-type', /json/)
+        .expect(200)
+        .end(function(err, res) {
+          if (err) {
+              return done(err)
+          }
+          var measurements = res.body.measurements
+          console.log(measurements)
+          measurements.length.should.be.exactly(2)
+
+          done()
+        })
     })
 })
