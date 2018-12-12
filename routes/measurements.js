@@ -104,6 +104,7 @@ router.get('/measurements', function (req, res, next) {
   // Do actual query.
   Measurement.find(where, fields)
     .limit(limit)
+    .sort({'timestamp': -1})
     .exec( function (err, measurementDocs) {
       if (err) {
         log.error(err)
