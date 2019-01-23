@@ -2,7 +2,8 @@ const errors = require('restify-errors')
 const Router = require('restify-router').Router
 const router = new Router()
 
-var Measurement = require('./../models/Measurement')
+const moment = require('moment')
+const Measurement = require('./../models/Measurement')
 
 /**
  * @api {get} /api/measurements List measurements
@@ -77,12 +78,30 @@ router.get('/measurements', function (req, res, next) {
     where.measurement_type = req.query.measurement_type
   }
 
+  // Filter by start and/or end date.
+  if (req.query.start !== undefined) {
+    where.timestamp = { $gte: moment(req.query.start).toDate() }
+    if (req.query.end !== undefined) {
+      // Check if start is before end date.
+      if (moment(req.query.start).isAfter(moment(req.query.end))){
+        return next(new errors.BadRequestError({message: 'Start date cannot be before end date.'}))
+      }
+      // Filter between start and end date.
+      where.timestamp = {
+        $gte: moment(req.query.start).toDate(),
+        $lte: moment(req.query.end).endOf('day').toDate()
+       }
+    }
+  } else if (req.query.end !== undefined) {
+    where.timestamp = { $lte: moment(req.query.end).endOf('day').toDate() }
+  }
+
   // Validate location parameters.
   if (req.query.longitude !== undefined && req.query.latitude === undefined ) {
-    return next(new errors.BadRequestError({message: 'Latitude parameter is missing.'}));
+    return next(new errors.BadRequestError({message: 'Latitude parameter is missing.'}))
   }
   if (req.query.longitude === undefined && req.query.latitude !== undefined) {
-    return next(new errors.BadRequestError({message: 'Longitude parameter is missing.'}));
+    return next(new errors.BadRequestError({message: 'Longitude parameter is missing.'}))
   }
 
   // Do a location based search if lat and long is supplied.
